@@ -6,6 +6,12 @@
 
 {% block content %}
     <h1>Hello World!</h1>
+
+    {% for thing in things %}
+    <h2>{{ thing.name }}</h2>
+    <p>{{ thing.description }}</p>
+    {% endfor %}
+
     <p>{% if number %}Number exists!{% endif %}</p>
     <p>There are six dogs! 
 	{% if number == 6 %}
