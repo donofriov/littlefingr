@@ -1,12 +1,20 @@
-{% load staticfiles %}
-<!doctype html>
-<html>
-    <head>
-        <title>LittleFingr</title>
-        <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-        <p>I am a basic website.</p>
-    </body>
-</html>
+
+{% extends 'base.html' %}
+{% block title %}
+    Homepage - {{ block.super }}
+{% endblock title %}
+
+{% block content %}
+    <h1>Hello World!</h1>
+    <p>{% if number %}Number exists!{% endif %}</p>
+    <p>There are six dogs! 
+	{% if number == 6 %}
+    	True
+	{% else %}
+    	False
+	{% endif %}
+	</p>
+	<p>There are {{ number }} dog{{ number|pluralize }}!</p>
+	<p>This is my name: {{ thing }}</p>
+	<p>This is my name: {{ thing|slugify }}</p>
+{% endblock content %}
