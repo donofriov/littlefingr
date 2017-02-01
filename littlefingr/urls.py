@@ -14,15 +14,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
+from django.conf.urls import include
 from django.contrib import admin
 from django.views.generic import TemplateView
 from collection import views
-from django.conf.urls import include 
+from collection.backends import MyRegistrationView
 from django.contrib.auth.views import (
    password_reset, 
    password_reset_done,
    password_reset_confirm,
-   password_reset_complete
+   password_reset_complete,
+   password_change,
+   password_change_done
 )
 
 urlpatterns = [
@@ -43,6 +46,16 @@ urlpatterns = [
         {'template_name':
         'registration/password_reset_form.html'},
         name="password_reset"),
+    url(r'^accounts/password/change/$', 
+        password_change,
+        {'template_name':
+        'registration/password_change_form.html'},
+        name="password_change"),
+    url(r'^accounts/password/change/done/$',
+        password_change_done,
+        {'template_name':
+        'registration/password_change_done.html'},
+        name="password_change_done"),
     url(r'^accounts/password/reset/done/$',
         password_reset_done,
         {'template_name':
@@ -58,6 +71,11 @@ urlpatterns = [
         {'template_name':
         'registration/password_reset_complete.html'},
         name="password_reset_complete"),
+    url(r'^accounts/register/$', 
+    MyRegistrationView.as_view(),
+    name='registration_register'),
+    url(r'^accounts/create_thing/$', views.create_thing, 
+    name='registration_create_thing'),
     url(r'^accounts/', 
         include('registration.backends.simple.urls')), 
     url(r'^admin/', admin.site.urls),

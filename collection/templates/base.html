@@ -25,13 +25,20 @@
                     <li>
                         <a href="{% url 'contact' %}">Contact</a>
                     </li>  
+                    
                     {% if user.is_authenticated %}
+                    <li>
+                        <a href="{% url 'password_change' %}">Password Change</a>
+                    </li>
                     <li>
                         <a href="{% url 'auth_logout' %}">Logout</a>
                     </li>
                     {% else %}
                     <li>
                         <a href="{% url 'auth_login' %}">Login</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'password_reset' %}">Password Reset</a>
                     </li>
                     <li>
                         <a href="{% url 'registration_register' %}">Register</a>
