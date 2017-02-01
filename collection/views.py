@@ -1,9 +1,14 @@
 from django.shortcuts import render, redirect
 from django.template.defaultfilters import slugify
 from collection.forms import ThingForm
+from collection.forms import ContactForm
 from collection.models import Thing
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
+from django.template.loader import get_template
+from django.core.mail import EmailMessage
+from django.template import Context
+
 
 # the rewritten view!
 def index(request):
@@ -11,6 +16,41 @@ def index(request):
 
     return render(request, 'index.html', {
         'things': things,
+    })
+
+def contact(request):
+    form_class = ContactForm
+
+    if request.method == 'POST':
+        form = form_class(data=request.POST)
+    
+        if form.is_valid():
+            contact_name = form.cleaned_data['contact_name']
+            contact_email = form.cleaned_data['contact_email']
+            form_content = form.cleaned_data['content']
+     
+            # email the profile with the contact info
+            template = get_template('contact_template.txt')
+            
+            context = Context({
+                'contact_name': contact_name,
+                'contact_email': contact_email,
+                'form_content': form_content,
+            })
+            content = template.render(context)
+
+            email = EmailMessage(
+                'New contact form submission',
+                content,
+                'Your website <vince@littlefingr.com>',
+                ['youremail@gmail.com'],
+                headers = {'Reply-To': contact_email }
+        )
+        email.send()
+        return redirect('contact')
+
+    return render(request, 'contact.html', {
+        'form': form_class,
     })
 
 # our new view
