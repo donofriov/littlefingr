@@ -27,6 +27,10 @@ from django.contrib.auth.views import (
    password_change,
    password_change_done
 )
+# added RedirectView to this import statement
+from django.views.generic import (TemplateView, 
+    RedirectView,
+)
 
 urlpatterns = [
     url(r'^$', views.index, name='home'),
@@ -37,6 +41,7 @@ urlpatterns = [
     url(r'^contact/$', 
         TemplateView.as_view(template_name='contact.html'),
         name='contact'),
+    url(r'^things/$', RedirectView.as_view(pattern_name='browse', permanent=True)),
     url(r'^things/(?P<slug>[-\w]+)/$', views.thing_detail, 
         name='thing_detail'),
     url(r'^things/(?P<slug>[-\w]+)/edit/$', views.edit_thing,
@@ -76,6 +81,12 @@ urlpatterns = [
     name='registration_register'),
     url(r'^accounts/create_thing/$', views.create_thing, 
     name='registration_create_thing'),
+    #browse flow
+    url(r'^browse/$', RedirectView.as_view(pattern_name='browse', permanent=True)),
+    url(r'^browse/name/$',
+    views.browse_by_name, name='browse'),
+    url(r'^browse/name/(?P<initial>[-\w]+)/$', 
+    views.browse_by_name, name='browse_by_name'),
     url(r'^accounts/', 
         include('registration.backends.simple.urls')), 
     url(r'^admin/', admin.site.urls),
