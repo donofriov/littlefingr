@@ -127,10 +127,11 @@ STATIC_URL = '/static/'
 ACCOUNT_ACTIVATION_DAYS = 7
 
 #Adding output of the contents of emails to command line (will update to email server when launching app)
-
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = 'testing@example.com'
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = False
 EMAIL_PORT = 1025
+#Redirect to homepage after sucessful email
+LOGIN_REDIRECT_URL = "home"
