@@ -27,6 +27,18 @@ from django.contrib.auth.views import (
    password_change,
    password_change_done
 )
+from django.contrib.sitemaps.views import sitemap
+from collection.sitemap import (
+    ThingSitemap,
+    StaticSitemap,
+    HomepageSitemap,
+)
+sitemaps = {
+    'things': ThingSitemap,
+    'static': StaticSitemap,
+    'homepage': HomepageSitemap,
+}
+
 # added RedirectView to this import statement
 from django.views.generic import (TemplateView, 
     RedirectView,
@@ -34,6 +46,8 @@ from django.views.generic import (TemplateView,
 
 urlpatterns = [
     url(r'^$', views.index, name='home'),
+    url(r'^sitemap.xml$', sitemap, {'sitemaps': sitemaps},
+        name='django.contrib.sitemaps.views.sitemap'),
     # The new URL entries we're adding:
     url(r'^about/$',
         TemplateView.as_view(template_name='about.html'),

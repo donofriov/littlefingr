@@ -8,6 +8,10 @@ from django.http import Http404
 from django.template.loader import get_template
 from django.core.mail import EmailMessage
 from django.template import Context
+from django.core.mail import mail_admins
+from django.template.loader import get_template
+from django.core.mail import EmailMessage
+from django.template import Context
 
 
 # the rewritten view!
@@ -58,9 +62,13 @@ def thing_detail(request, slug):
     # grab the object...
     thing = Thing.objects.get(slug=slug)
 
+    # new line! grab all the object's social accounts
+    social_accounts = thing.social_accounts.all()
+
     # and pass to the template
     return render(request, 'things/thing_detail.html', {
         'thing': thing,
+        'social_accounts': social_accounts,
     })
 
 
@@ -95,6 +103,7 @@ def edit_thing(request, slug):
         'thing': thing,
         'form': form,
     })
+    mail_admins("Our subject line", "Our content")
 
 def create_thing(request):
     form_class = ThingForm

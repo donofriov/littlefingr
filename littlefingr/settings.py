@@ -31,7 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'collection', # new app that I created
+    'collection',
+    'django.contrib.sitemaps',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -132,10 +133,18 @@ ACCOUNT_ACTIVATION_DAYS = 7
 
 #Adding output of the contents of emails to command line (will update to email server when launching app)
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-DEFAULT_FROM_EMAIL = 'testing@example.com'
+DEFAULT_FROM_EMAIL = 'vince@littlefinger'
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = False
 EMAIL_PORT = 1025
 #Redirect to homepage after sucessful email
 LOGIN_REDIRECT_URL = "home"
+
+# the email address that the "server emails" will come from
+SERVER_EMAIL = 'admin@littlefingr.com'
+# the email you want these admin emails to go to
+# (can add as many as you like)
+ADMINS = [
+ ('your name', 'donofriov@gmail.com'),
+]
